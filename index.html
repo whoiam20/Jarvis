@@ -1,0 +1,560 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050b16">
+<title>J.A.R.V.I.S. | Stark Interface</title>
+
+<style>
+:root {
+  --cyan: #50dcff;
+  --blue: #258aff;
+  --bg: #050b16;
+  --panel: rgba(10,26,47,.88);
+  --text: #e5f8ff;
+  --muted: #86a9c5;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  font-family: Arial, sans-serif;
+  background: radial-gradient(ellipse at top,#102d50,var(--bg) 65%);
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .15;
+  background-image:
+    linear-gradient(#318cc522 1px,transparent 1px),
+    linear-gradient(90deg,#318cc522 1px,transparent 1px);
+  background-size: 30px 30px;
+}
+.app {
+  width: min(900px,100%);
+  margin: auto;
+  padding: 18px 15px 30px;
+  position: relative;
+}
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 1px solid #50dcff44;
+  padding-bottom: 15px;
+}
+.brand {
+  font-size: 19px;
+  font-weight: bold;
+  letter-spacing: 3px;
+}
+.brand small {
+  display: block;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 2px;
+  margin-top: 5px;
+}
+.status {
+  font-size: 10px;
+  color: #70ffca;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+.hero { text-align: center; padding-top: 22px; }
+.eyebrow {
+  color: var(--cyan);
+  font-size: 10px;
+  letter-spacing: 3px;
+}
+.reactor {
+  height: 210px;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+.orbit {
+  position: absolute;
+  width: 175px;
+  height: 175px;
+  border: 1px solid var(--cyan);
+  border-radius: 50%;
+  animation: rotate 12s linear infinite;
+  box-shadow: 0 0 25px #168dff22;
+}
+.orbit::before,.orbit::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px dashed #258aff;
+  border-radius: 50%;
+}
+.orbit::after {
+  inset: -9px;
+  border-color: #50dcff66;
+  border-style: dotted;
+}
+.core {
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+  background: radial-gradient(circle,#d8fbff 0%,#50dcff 20%,#1677e9 55%,#06142a 75%);
+  box-shadow: 0 0 25px #50dcff,0 0 65px #258aff88;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes rotate { to { transform: rotate(360deg); } }
+@keyframes pulse {
+  50% { transform: scale(1.08); box-shadow: 0 0 40px #50dcff,0 0 80px #258aff99; }
+}
+h2 { font-size: 25px; letter-spacing: 5px; margin: 0; }
+.subtitle { color: var(--muted); font-size: 12px; margin-top: 9px; }
+.clock { color: var(--cyan); font-size: 12px; letter-spacing: 1px; margin-top: 17px; }
+.panel {
+  border: 1px solid #50dcff35;
+  background: var(--panel);
+  border-radius: 13px;
+  padding: 15px;
+  margin-top: 20px;
+  box-shadow: 0 10px 35px #0004;
+}
+.panel-title {
+  font-size: 10px;
+  color: var(--cyan);
+  letter-spacing: 2px;
+  margin-bottom: 13px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 9px;
+}
+button { font: inherit; cursor: pointer; }
+.command {
+  color: var(--text);
+  background: #10243c;
+  border: 1px solid #50dcff30;
+  border-radius: 9px;
+  padding: 13px 9px;
+  text-align: left;
+  font-size: 12px;
+  min-height: 47px;
+}
+.command:active,.command:hover {
+  border-color: var(--cyan);
+  background: #153452;
+}
+.command span { color: var(--cyan); margin-right: 7px; }
+.chat {
+  height: 230px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 3px 0;
+}
+.message {
+  font-size: 13px;
+  line-height: 1.6;
+  padding: 10px 12px;
+  border-radius: 9px;
+  max-width: 95%;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.jarvis {
+  align-self: flex-start;
+  background: #102a44;
+  border-left: 2px solid var(--cyan);
+}
+.user {
+  align-self: flex-end;
+  background: #153b61;
+  border-right: 2px solid var(--blue);
+}
+.input-row { display: flex; gap: 8px; margin-top: 12px; }
+input {
+  min-width: 0;
+  flex: 1;
+  background: #050e1c;
+  color: white;
+  border: 1px solid #50dcff44;
+  border-radius: 8px;
+  padding: 13px;
+  font-size: 14px;
+  outline: none;
+}
+input:focus { border-color: var(--cyan); }
+.action {
+  border: 1px solid #50dcff77;
+  border-radius: 8px;
+  padding: 11px 13px;
+  background: #10365a;
+  color: var(--cyan);
+  font-size: 11px;
+}
+.action.primary {
+  color: #00121e;
+  background: var(--cyan);
+  font-weight: bold;
+}
+.action.listening {
+  color: white;
+  background: #a92749;
+  border-color: #ff638a;
+}
+.note {
+  font-size: 10px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.6;
+  margin-top: 15px;
+}
+footer {
+  text-align: center;
+  color: #557b99;
+  font-size: 9px;
+  letter-spacing: 2px;
+  padding-top: 25px;
+}
+@media(min-width:650px) {
+  .grid { grid-template-columns: repeat(4,minmax(0,1fr)); }
+  .chat { height: 270px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .orbit,.core { animation: none; }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<header>
+  <div class="brand">
+    J.A.R.V.I.S.
+    <small>PERSONAL ASSISTANT SYSTEM</small>
+  </div>
+  <div class="status">● SYSTEM ONLINE</div>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">STARK INTERFACE // 01</div>
+  <div class="reactor">
+    <div class="orbit"></div>
+    <div class="core"></div>
+  </div>
+  <h2>J.A.R.V.I.S.</h2>
+  <div class="subtitle">Just A Rather Very Intelligent System</div>
+  <div class="clock" id="clock">INITIALIZING...</div>
+</section>
+
+<section class="panel">
+  <div class="panel-title">QUICK COMMANDS</div>
+  <div class="grid">
+    <button class="command" onclick="runCommand('time')"><span>◷</span>Current time</button>
+    <button class="command" onclick="runCommand('date')"><span>▦</span>Today's date</button>
+    <button class="command" onclick="runCommand('weather')"><span>☼</span>Weather search</button>
+    <button class="command" onclick="runCommand('google')"><span>⌕</span>Google search</button>
+    <button class="command" onclick="runCommand('youtube')"><span>▷</span>Open YouTube</button>
+    <button class="command" onclick="runCommand('calculator')"><span>＋</span>Calculator</button>
+    <button class="command" onclick="runCommand('joke')"><span>✧</span>Tell a joke</button>
+    <button class="command" onclick="runCommand('help')"><span>⌘</span>All commands</button>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel-title">ASSISTANT TERMINAL</div>
+  <div class="chat" id="chat" aria-live="polite">
+    <div class="message jarvis">Good day. JARVIS systems are online.
+
+I am ready to assist you. Type a command below, or tap SPEAK to try voice input.</div>
+  </div>
+
+  <div class="input-row">
+    <input id="userInput" placeholder="Enter a command..." autocomplete="off">
+    <button class="action primary" onclick="sendMessage()">SEND</button>
+  </div>
+  <div class="input-row">
+    <button class="action" id="micButton" onclick="listen()">🎙 SPEAK</button>
+    <button class="action" onclick="toggleSpeech()" id="speechButton">🔊 VOICE ON</button>
+    <button class="action" onclick="clearChat()">CLEAR</button>
+  </div>
+  <div class="note" id="voiceStatus" role="status">
+    TAP SPEAK TO REQUEST MICROPHONE ACCESS.
+  </div>
+</section>
+
+<footer>J.A.R.V.I.S. // PERSONAL COMMAND SYSTEM</footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+let speechEnabled = true;
+let recognition = null;
+let listening = false;
+
+function addMessage(text,type="jarvis") {
+  const message = document.createElement("div");
+  message.className = "message " + type;
+  message.textContent = text;
+  $("chat").appendChild(message);
+  $("chat").scrollTop = $("chat").scrollHeight;
+}
+
+function speak(text) {
+  if (!speechEnabled || !("speechSynthesis" in window)) return;
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.rate = 1;
+  utterance.pitch = .95;
+  utterance.lang = "en-US";
+  window.speechSynthesis.speak(utterance);
+}
+
+function reply(text,voice=true) {
+  addMessage(text);
+  if (voice) speak(text);
+}
+
+function updateClock() {
+  const now = new Date();
+  $("clock").textContent =
+    now.toLocaleTimeString([], {
+      hour:"2-digit",minute:"2-digit",second:"2-digit"
+    }) + " // " +
+    now.toLocaleDateString([],{
+      weekday:"short",day:"2-digit",month:"short",year:"numeric"
+    });
+}
+updateClock();
+setInterval(updateClock,1000);
+
+function openSearch(query) {
+  window.open(
+    "https://www.google.com/search?q=" + encodeURIComponent(query),
+    "_blank"
+  );
+}
+
+function runCommand(command) {
+  switch(command) {
+    case "time":
+      reply("The current time is " +
+        new Date().toLocaleTimeString([],{
+          hour:"numeric",minute:"2-digit"
+        }));
+      break;
+    case "date":
+      reply("Today is " +
+        new Date().toLocaleDateString(undefined,{
+          weekday:"long",year:"numeric",month:"long",day:"numeric"
+        }));
+      break;
+    case "weather":
+      reply("Opening a weather search.");
+      openSearch("weather near me");
+      break;
+    case "google":
+      reply("Opening Google.");
+      window.open("https://www.google.com","_blank");
+      break;
+    case "youtube":
+      reply("Opening YouTube.");
+      window.open("https://www.youtube.com","_blank");
+      break;
+    case "calculator":
+      reply("Opening the online calculator.");
+      openSearch("calculator");
+      break;
+    case "joke":
+      reply([
+        "Why do programmers prefer dark mode? Because light attracts bugs.",
+        "I told my computer I needed a break. It said: no problem, I'll go to sleep.",
+        "Why was the computer cold? It left its Windows open."
+      ][Math.floor(Math.random()*3)]);
+      break;
+    case "help":
+      reply("Commands include: time, date, weather, open YouTube, open Google, calculator, tell a joke, search for something, and clear chat.");
+      break;
+  }
+}
+
+function handleInput(raw) {
+  const text = raw.trim();
+  const lower = text.toLowerCase();
+  if (!text) return;
+
+  addMessage(text,"user");
+
+  if (/^(hi|hello|hey)\b/.test(lower)) {
+    reply("Hello. JARVIS is at your service. What can I do for you?");
+  } else if (/\bhow are you\b/.test(lower)) {
+    reply("All systems are functioning within normal parameters.");
+  } else if (/\bwho are you\b|\bwhat is jarvis\b/.test(lower)) {
+    reply("I am JARVIS, your browser-based personal assistant. This version uses local JavaScript commands instead of a cloud AI.");
+  } else if (/\btime\b/.test(lower)) {
+    runCommand("time");
+  } else if (/\b(date|what day|today's date)\b/.test(lower)) {
+    runCommand("date");
+  } else if (/\bweather\b/.test(lower)) {
+    runCommand("weather");
+  } else if (/\byoutube\b/.test(lower)) {
+    runCommand("youtube");
+  } else if (/\bcalculator\b/.test(lower)) {
+    runCommand("calculator");
+  } else if (/^(search|google)\b/.test(lower)) {
+    const query = text.replace(/^(search|google)\s*(for)?\s*/i,"").trim();
+    if (query) {
+      reply("Searching Google for " + query + ".");
+      openSearch(query);
+    } else {
+      runCommand("google");
+    }
+  } else if (/^(open|go to)\s+/.test(lower)) {
+    const site = text.replace(/^(open|go to)\s+/i,"").trim().toLowerCase();
+    const sites = {
+      google:"https://www.google.com",
+      youtube:"https://www.youtube.com",
+      wikipedia:"https://www.wikipedia.org",
+      github:"https://github.com",
+      chatgpt:"https://chatgpt.com"
+    };
+    if (sites[site]) {
+      reply("Opening " + site + ".");
+      window.open(sites[site],"_blank");
+    } else {
+      reply("I can open Google, YouTube, Wikipedia, GitHub, or ChatGPT. Try one of those.");
+    }
+  } else if (/\b(joke|make me laugh)\b/.test(lower)) {
+    runCommand("joke");
+  } else if (/\b(help|commands)\b/.test(lower)) {
+    runCommand("help");
+  } else if (/\b(clear|reset)\s+(chat|conversation)\b/.test(lower)) {
+    clearChat();
+  } else if (/\b(thanks|thank you)\b/.test(lower)) {
+    reply("You're welcome. Always happy to assist.");
+  } else if (/\b(your name|what's your name)\b/.test(lower)) {
+    reply("You may call me JARVIS.");
+  } else {
+    reply("I understood your message, but I do not have general AI knowledge in this offline version. Try asking for the time or saying 'search for BMW M4'.");
+  }
+}
+
+function sendMessage() {
+  const input = $("userInput");
+  const text = input.value;
+  input.value = "";
+  handleInput(text);
+}
+$("userInput").addEventListener("keydown",event=>{
+  if (event.key==="Enter") sendMessage();
+});
+
+async function listen() {
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+  const status = $("voiceStatus");
+  const micButton = $("micButton");
+
+  if (listening) {
+    if (recognition) recognition.stop();
+    return;
+  }
+
+  if (!navigator.mediaDevices ||
+      !navigator.mediaDevices.getUserMedia) {
+    status.textContent =
+      "MICROPHONE UNAVAILABLE. Open this page in a compatible browser using HTTPS.";
+    return;
+  }
+
+  try {
+    status.textContent = "REQUESTING MICROPHONE PERMISSION...";
+
+    // Explicitly ask the browser for microphone access.
+    const stream = await navigator.mediaDevices.getUserMedia({
+      audio: true
+    });
+    stream.getTracks().forEach(track=>track.stop());
+
+    if (!SpeechRecognition) {
+      status.textContent =
+        "MICROPHONE PERMISSION GRANTED, BUT SPEECH RECOGNITION IS NOT SUPPORTED HERE. Try a compatible browser.";
+      return;
+    }
+
+    recognition = new SpeechRecognition();
+    recognition.lang = "en-US";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = () => {
+      listening = true;
+      micButton.textContent = "■ STOP";
+      micButton.classList.add("listening");
+      status.textContent = "LISTENING — SPEAK YOUR COMMAND.";
+    };
+
+    recognition.onresult = event => {
+      const transcript = event.results[0][0].transcript;
+      $("userInput").value = transcript;
+      handleInput(transcript);
+    };
+
+    recognition.onerror = event => {
+      status.textContent =
+        "VOICE ERROR: " + event.error +
+        ". Check microphone permission or try HTTPS Safari.";
+    };
+
+    recognition.onend = () => {
+      listening = false;
+      micButton.textContent = "🎙 SPEAK";
+      micButton.classList.remove("listening");
+      if (status.textContent === "LISTENING — SPEAK YOUR COMMAND.") {
+        status.textContent = "READY FOR YOUR NEXT COMMAND.";
+      }
+    };
+
+    recognition.start();
+
+  } catch(error) {
+    const messages = {
+      NotAllowedError:
+        "MICROPHONE BLOCKED. Allow microphone access in browser settings, then reload.",
+      NotFoundError:
+        "NO MICROPHONE WAS FOUND.",
+      NotReadableError:
+        "MICROPHONE IS BUSY OR UNAVAILABLE. Close other apps using it."
+    };
+    status.textContent = messages[error.name] ||
+      "MICROPHONE ERROR: " + error.name +
+      ". Try opening JARVIS on an HTTPS website.";
+  }
+}
+
+function toggleSpeech() {
+  speechEnabled = !speechEnabled;
+  $("speechButton").textContent =
+    speechEnabled ? "🔊 VOICE ON" : "🔇 VOICE OFF";
+  if (!speechEnabled && "speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
+  }
+  if (speechEnabled) speak("Voice responses enabled.");
+}
+
+function clearChat() {
+  $("chat").replaceChildren();
+  addMessage("Conversation cleared. JARVIS is ready for your next command.");
+}
+</script>
+</body>
+</html>
